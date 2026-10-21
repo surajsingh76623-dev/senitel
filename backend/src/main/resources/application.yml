@@ -1,0 +1,91 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: sentinel-backend
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 20MB
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+
+# Sentinel Custom Properties
+sentinel:
+  storage:
+    location: ${SENTINEL_STORAGE_LOCATION:./uploads}
+    max-file-size-mb: ${SENTINEL_MAX_FILE_SIZE_MB:15}
+    allowed-extensions:
+      - txt
+      - log
+      - json
+      - csv
+      - md
+      - pdf
+      - png
+      - jpg
+      - jpeg
+      - webp
+  ai:
+    provider: ${SENTINEL_AI_PROVIDER:demo}
+    api-key: ${SENTINEL_AI_API_KEY:}
+    model: ${SENTINEL_AI_MODEL:gpt-4o}
+    base-url: ${SENTINEL_AI_BASE_URL:https://api.openai.com/v1}
+    timeout-seconds: 45
+
+# SpringDoc OpenAPI Documentation
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+---
+# Dev Profile (H2 with PostgreSQL compatibility mode)
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:file:./data/sentinel_db;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+---
+# Postgres Profile (Standard PostgreSQL 16)
+spring:
+  config:
+    activate:
+      on-profile: postgres
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:sentinel_db}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USER:sentinel_user}
+    password: ${DB_PASSWORD:sentinel_secret_password}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration

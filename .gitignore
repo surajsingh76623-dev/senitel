@@ -1,0 +1,43 @@
+# Sentinel - Root Git Ignore
+
+# Java & Spring Boot
+backend/target/
+backend/*.log
+backend/.flattened-pom.xml
+backend/uploads/
+uploads/
+
+# Node & Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/coverage/
+
+# IDE & OS
+.idea/
+*.iml
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# Secrets & Environment
+.env
+*.env
+!.env.example
+
+# Temporary and build logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
