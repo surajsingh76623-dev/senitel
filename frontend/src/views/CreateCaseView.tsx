@@ -308,21 +308,25 @@ export const CreateCaseView: React.FC<Props> = ({ onCancel, onCreated }) => {
           <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
             Attach Evidence Files (Logs, Datasets, Screenshots)
           </label>
-          <div className="border-2 border-dashed border-slate-800 hover:border-slate-700 rounded-xl p-6 text-center bg-slate-950/40 transition">
-            <Upload className="w-8 h-8 text-slate-500 mx-auto mb-2" />
-            <p className="text-xs text-slate-300 font-medium">
+          <label 
+            htmlFor="evidence-file-input" 
+            className="block relative border-2 border-dashed border-slate-800 hover:border-emerald-500/60 rounded-xl p-6 text-center bg-slate-950/40 hover:bg-slate-950/70 transition cursor-pointer"
+          >
+            <Upload className="w-8 h-8 text-slate-500 mx-auto mb-2 pointer-events-none" />
+            <p className="text-xs text-slate-300 font-medium pointer-events-none">
               Click to select or drag & drop evidence files
             </p>
-            <p className="text-[11px] text-slate-500 mt-1">
+            <p className="text-[11px] text-slate-500 mt-1 pointer-events-none">
               Supports .txt, .log, .json, .csv, .pdf, .png, .jpg (Max 15MB per file)
             </p>
             <input
+              id="evidence-file-input"
               type="file"
               multiple
               onChange={handleFileChange}
-              className="absolute inset-0 opacity-0 cursor-pointer"
+              className="hidden"
             />
-          </div>
+          </label>
 
           {files.length > 0 && (
             <div className="space-y-1.5 pt-2">
