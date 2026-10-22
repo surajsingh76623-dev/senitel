@@ -284,7 +284,7 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
           }`}
         >
           <Search className="w-4 h-4" />
-          <span>Investigation Decomposition</span>
+          <span>1. Diagnosis & What Happened</span>
         </button>
 
         <button
@@ -296,7 +296,7 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
           }`}
         >
           <Lightbulb className="w-4 h-4" />
-          <span>Solution Trade-offs ({problemCase.candidateSolutions.length})</span>
+          <span>2. Solutions & Fixes ({problemCase.candidateSolutions.length})</span>
         </button>
 
         <button
@@ -308,7 +308,7 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
           }`}
         >
           <CheckSquare className="w-4 h-4" />
-          <span>Action Plan ({completedActions}/{totalActions})</span>
+          <span>3. Step-by-Step Fix ({completedActions}/{totalActions})</span>
         </button>
 
         <button
@@ -320,7 +320,7 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
           }`}
         >
           <ShieldCheck className="w-4 h-4" />
-          <span>Verification Center ({problemCase.verificationRuns.length})</span>
+          <span>4. Test & Confirm ({problemCase.verificationRuns.length})</span>
         </button>
 
         <button
@@ -332,7 +332,7 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
           }`}
         >
           <History className="w-4 h-4" />
-          <span>Audit Timeline ({problemCase.auditEvents.length})</span>
+          <span>5. Case History ({problemCase.auditEvents.length})</span>
         </button>
       </div>
 
@@ -386,6 +386,7 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
                   <CheckCircle2 className="w-4 h-4" />
                   <span>1. Known Facts ({problemCase.investigationFinding.knownFacts.length})</span>
                 </div>
+                <p className="text-[11px] text-slate-400">Confirmed facts from your problem description and files</p>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {problemCase.investigationFinding.knownFacts.map((fact, i) => (
                     <li key={i} className="flex items-start gap-2 bg-slate-950/50 p-2.5 rounded-lg border border-slate-800/60">
@@ -402,6 +403,7 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
                   <HelpCircle className="w-4 h-4" />
                   <span>2. Working Assumptions ({problemCase.investigationFinding.assumptions.length})</span>
                 </div>
+                <p className="text-[11px] text-slate-400">Initial hypotheses that need verification</p>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {problemCase.investigationFinding.assumptions.map((assump, i) => (
                     <li key={i} className="flex items-start gap-2 bg-slate-950/50 p-2.5 rounded-lg border border-slate-800/60">
@@ -416,8 +418,9 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
               <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold text-rose-400 uppercase tracking-wider">
                   <AlertCircle className="w-4 h-4" />
-                  <span>3. Missing Information ({problemCase.investigationFinding.missingInformation.length})</span>
+                  <span>3. Missing Details ({problemCase.investigationFinding.missingInformation.length})</span>
                 </div>
+                <p className="text-[11px] text-slate-400">Extra details that would help narrow this down</p>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {problemCase.investigationFinding.missingInformation.map((item, i) => (
                     <li key={i} className="flex items-start gap-2 bg-slate-950/50 p-2.5 rounded-lg border border-slate-800/60">
@@ -432,8 +435,9 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
               <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold text-purple-400 uppercase tracking-wider">
                   <ShieldCheck className="w-4 h-4" />
-                  <span>4. Hard Constraints ({problemCase.investigationFinding.identifiedConstraints.length})</span>
+                  <span>4. Limits & Rules ({problemCase.investigationFinding.identifiedConstraints.length})</span>
                 </div>
+                <p className="text-[11px] text-slate-400">Safety standards, budgets, or design limitations</p>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {problemCase.investigationFinding.identifiedConstraints.map((item, i) => (
                     <li key={i} className="flex items-start gap-2 bg-slate-950/50 p-2.5 rounded-lg border border-slate-800/60">
@@ -448,8 +452,9 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
               <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3 md:col-span-2 lg:col-span-2">
                 <div className="flex items-center gap-2 text-xs font-bold text-cyan-400 uppercase tracking-wider">
                   <CheckSquare className="w-4 h-4" />
-                  <span>5. Falsifiable Success Criteria ({problemCase.investigationFinding.successCriteria.length})</span>
+                  <span>5. What Success Looks Like ({problemCase.investigationFinding.successCriteria.length})</span>
                 </div>
+                <p className="text-[11px] text-slate-400">The measurable condition required to prove this is fully solved</p>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {problemCase.investigationFinding.successCriteria.map((item, i) => (
                     <li key={i} className="flex items-start gap-2 bg-slate-950/50 p-2.5 rounded-lg border border-slate-800/60">
@@ -791,7 +796,7 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
               {/* Calculator 1: Software Connection Pool Starvation */}
               <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3 flex flex-col justify-between">
                 <div className="space-y-1">
@@ -860,6 +865,30 @@ export const InvestigationWorkspaceView: React.FC<Props> = ({ problemCase, onRef
                   className="w-full py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-xs font-semibold transition"
                 >
                   {isCalculating ? 'Modeling...' : 'Run Unit Economics Check'}
+                </button>
+              </div>
+
+              {/* Calculator 4: Structural Engineering Deflection & Safety Factor */}
+              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3 flex flex-col justify-between">
+                <div className="space-y-1">
+                  <span className="text-[11px] font-mono text-amber-400 font-semibold uppercase">Engineering (Civil/Mech)</span>
+                  <h4 className="text-sm font-semibold text-slate-100">Beam Deflection & FoS Check</h4>
+                  <p className="text-xs text-slate-400">
+                    Asserts mid-span deflection &le; L/360 limit and Factor of Safety (FoS) &ge; 1.75.
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleRunDeterministicCheck('STRUCTURAL_BEAM_SAFETY', {
+                    spanLengthMeters: 6.0,
+                    appliedServiceLoadKn: 120.0,
+                    observedDeflectionMm: 8.2,
+                    ultimateCapacityKn: 255.0,
+                    minRequiredFos: 1.75,
+                  })}
+                  disabled={isCalculating}
+                  className="w-full py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-semibold transition"
+                >
+                  {isCalculating ? 'Calculating...' : 'Run Structural Safety Check'}
                 </button>
               </div>
             </div>

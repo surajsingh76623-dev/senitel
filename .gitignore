@@ -6,6 +6,8 @@ backend/*.log
 backend/.flattened-pom.xml
 backend/uploads/
 uploads/
+backend/data/
+*.db
 
 # Node & Frontend
 frontend/node_modules/

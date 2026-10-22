@@ -17,7 +17,9 @@ import {
   Binary, 
   BarChart3, 
   FileCheck2,
-  Clock
+  Clock,
+  Wrench,
+  HelpCircle
 } from 'lucide-react';
 
 interface Props {
@@ -39,13 +41,13 @@ export const DashboardView: React.FC<Props> = ({ stats, cases, loading, onNaviga
         <div className="relative z-10 max-w-3xl space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-800/60 text-emerald-400 text-xs font-semibold">
             <ShieldCheck className="w-4 h-4" />
-            <span>AI Problem Investigation & Falsifiable Verification</span>
+            <span>AI Problem Investigation & Falsifiable Verification Platform</span>
           </div>
           <h1 className="text-3xl font-extrabold text-slate-50 tracking-tight sm:text-4xl">
-            Turn Ambiguous Problems into <span className="text-emerald-400">Verified Resolutions</span>
+            Solve Complex Problems with <span className="text-emerald-400">Verified Solutions</span>
           </h1>
           <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            SENTINEL separates facts, assumptions, and critical unknowns, compares candidate solutions with transparent trade-offs, and enforces independently testable verification before claiming success.
+            Whether you are a student solving math and science, an engineer calculating structural loads, a developer debugging software errors, or an analyst investigating business drops — SENTINEL helps you diagnose the root cause and test real fixes.
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button
@@ -53,14 +55,14 @@ export const DashboardView: React.FC<Props> = ({ stats, cases, loading, onNaviga
               className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-sm font-semibold transition shadow-lg shadow-emerald-950/50"
             >
               <PlusCircle className="w-4 h-4" />
-              <span>Submit Problem Case</span>
+              <span>Ask SENTINEL a Problem</span>
             </button>
             <button
               onClick={() => onNavigate('history')}
               className="flex items-center gap-2 px-4 py-2.5 bg-slate-800 hover:bg-slate-700/80 text-slate-200 border border-slate-700 rounded-xl text-sm font-medium transition"
             >
               <Search className="w-4 h-4" />
-              <span>Explore All Cases</span>
+              <span>View Past Investigations</span>
             </button>
           </div>
         </div>
@@ -73,124 +75,168 @@ export const DashboardView: React.FC<Props> = ({ stats, cases, loading, onNaviga
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="p-5 bg-slate-900/80 border border-slate-800 rounded-xl space-y-1">
           <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-            <span>Total Investigations</span>
+            <span>Total Cases</span>
             <Layers className="w-4 h-4 text-slate-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-bold text-slate-50 font-mono">
             {stats?.totalCases ?? '—'}
           </div>
-          <p className="text-[11px] text-slate-400">Across 3 deep workflows</p>
+          <p className="text-[11px] text-slate-400">Tracked investigations</p>
         </div>
 
         <div className="p-5 bg-slate-900/80 border border-slate-800 rounded-xl space-y-1">
           <div className="flex items-center justify-between text-blue-400 text-xs font-medium">
-            <span>Active Diagnostics</span>
+            <span>In Progress</span>
             <Search className="w-4 h-4 text-blue-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-bold text-blue-300 font-mono">
             {(stats?.investigatingCases || 0) + (stats?.inProgressCases || 0)}
           </div>
-          <p className="text-[11px] text-slate-400">Investigating or executing plan</p>
+          <p className="text-[11px] text-slate-400">Diagnosing or fixing</p>
         </div>
 
         <div className="p-5 bg-slate-900/80 border border-slate-800 rounded-xl space-y-1">
           <div className="flex items-center justify-between text-emerald-400 text-xs font-medium">
-            <span>Independently Verified</span>
+            <span>Verified Passed</span>
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-bold text-emerald-300 font-mono">
             {stats?.verifiedCases ?? '—'}
           </div>
           <p className="text-[11px] text-emerald-400/90 font-medium">
-            {verifiedRate}% empirical pass rate
+            {verifiedRate}% tested successfully
           </p>
         </div>
 
         <div className="p-5 bg-slate-900/80 border border-slate-800 rounded-xl space-y-1">
           <div className="flex items-center justify-between text-purple-400 text-xs font-medium">
-            <span>Preserved Lessons</span>
+            <span>Knowledge Library</span>
             <FileCheck2 className="w-4 h-4 text-purple-400" />
           </div>
           <div className="text-2xl sm:text-3xl font-bold text-purple-300 font-mono">
             {stats?.knowledgeEntriesCount ?? '—'}
           </div>
-          <p className="text-[11px] text-slate-400">Approved reusable articles</p>
+          <p className="text-[11px] text-slate-400">Saved lessons & fixes</p>
         </div>
       </div>
 
-      {/* Deep Workflows Banner */}
+      {/* Categories / Workflows */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-            <span>Core Deep Investigation Workflows</span>
+            <span>What type of problem do you want to solve?</span>
           </h2>
-          <span className="text-xs text-slate-400">Deep domain telemetry & deterministic verification</span>
+          <span className="text-xs text-slate-400">Select any problem to investigate</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
           {/* Software Card */}
           <div 
             onClick={() => onNavigate('create')}
-            className="group p-5 bg-slate-900 border border-slate-800 hover:border-emerald-500/50 rounded-xl transition cursor-pointer space-y-3"
+            className="group p-4 bg-slate-900 border border-slate-800 hover:border-emerald-500/50 rounded-xl transition cursor-pointer flex flex-col justify-between space-y-3"
           >
-            <div className="w-10 h-10 rounded-lg bg-emerald-950/60 border border-emerald-800/60 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition">
-              <Terminal className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-100 group-hover:text-emerald-400 transition">
-                1. Software Debugging
+            <div className="space-y-2.5">
+              <div className="w-9 h-9 rounded-lg bg-emerald-950/60 border border-emerald-800/60 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition">
+                <Terminal className="w-4 h-4" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-100 group-hover:text-emerald-400 transition">
+                Software & Code
               </h3>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                Stack traces, connection starvation, thread pool deadlocks, memory leaks, and concurrency bottlenecks.
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Stack traces, connection timeouts, memory leaks, bugs, and API errors.
               </p>
             </div>
-            <div className="pt-1 flex items-center text-xs text-emerald-400 font-medium gap-1">
-              <span>Start debug case</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition" />
+            <div className="flex items-center text-xs text-emerald-400 font-medium gap-1 pt-1">
+              <span>Start case</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition" />
             </div>
           </div>
 
           {/* Academic Math Card */}
           <div 
             onClick={() => onNavigate('create')}
-            className="group p-5 bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-xl transition cursor-pointer space-y-3"
+            className="group p-4 bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-xl transition cursor-pointer flex flex-col justify-between space-y-3"
           >
-            <div className="w-10 h-10 rounded-lg bg-indigo-950/60 border border-indigo-800/60 flex items-center justify-center text-indigo-400 group-hover:scale-105 transition">
-              <Binary className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-100 group-hover:text-indigo-400 transition">
-                2. Academic & Math Problem-Solving
+            <div className="space-y-2.5">
+              <div className="w-9 h-9 rounded-lg bg-indigo-950/60 border border-indigo-800/60 flex items-center justify-center text-indigo-400 group-hover:scale-105 transition">
+                <Binary className="w-4 h-4" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-100 group-hover:text-indigo-400 transition">
+                Study & Student
               </h3>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                PINNs, gradient explosion, boundary condition proofs, Cole-Hopf analytical verification, and relative L2 error norms.
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Math equations, physics problems, homework concepts, and formulas.
               </p>
             </div>
-            <div className="pt-1 flex items-center text-xs text-indigo-400 font-medium gap-1">
-              <span>Start math case</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition" />
+            <div className="flex items-center text-xs text-indigo-400 font-medium gap-1 pt-1">
+              <span>Start case</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition" />
+            </div>
+          </div>
+
+          {/* Engineering Card */}
+          <div 
+            onClick={() => onNavigate('create')}
+            className="group p-4 bg-slate-900 border border-slate-800 hover:border-amber-500/50 rounded-xl transition cursor-pointer flex flex-col justify-between space-y-3"
+          >
+            <div className="space-y-2.5">
+              <div className="w-9 h-9 rounded-lg bg-amber-950/60 border border-amber-800/60 flex items-center justify-center text-amber-400 group-hover:scale-105 transition">
+                <Wrench className="w-4 h-4" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-100 group-hover:text-amber-400 transition">
+                Engineering
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Civil structural cracks, load safety factors, circuits, and machinery.
+              </p>
+            </div>
+            <div className="flex items-center text-xs text-amber-400 font-medium gap-1 pt-1">
+              <span>Start case</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition" />
             </div>
           </div>
 
           {/* Data & Business Card */}
           <div 
             onClick={() => onNavigate('create')}
-            className="group p-5 bg-slate-900 border border-slate-800 hover:border-sky-500/50 rounded-xl transition cursor-pointer space-y-3"
+            className="group p-4 bg-slate-900 border border-slate-800 hover:border-sky-500/50 rounded-xl transition cursor-pointer flex flex-col justify-between space-y-3"
           >
-            <div className="w-10 h-10 rounded-lg bg-sky-950/60 border border-sky-800/60 flex items-center justify-center text-sky-400 group-hover:scale-105 transition">
-              <BarChart3 className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-slate-100 group-hover:text-sky-400 transition">
-                3. Data & Business Analysis
+            <div className="space-y-2.5">
+              <div className="w-9 h-9 rounded-lg bg-sky-950/60 border border-sky-800/60 flex items-center justify-center text-sky-400 group-hover:scale-105 transition">
+                <BarChart3 className="w-4 h-4" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-100 group-hover:text-sky-400 transition">
+                Business & Work
               </h3>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                Customer churn anomalies, pricing restructuring, cohort survival, CAC payback, and gross margin constraint modeling.
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Sales dips, churn spikes, billing issues, workflow bottlenecks, and costs.
               </p>
             </div>
-            <div className="pt-1 flex items-center text-xs text-sky-400 font-medium gap-1">
-              <span>Start business case</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition" />
+            <div className="flex items-center text-xs text-sky-400 font-medium gap-1 pt-1">
+              <span>Start case</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition" />
+            </div>
+          </div>
+
+          {/* General Problem Card */}
+          <div 
+            onClick={() => onNavigate('create')}
+            className="group p-4 bg-slate-900 border border-slate-800 hover:border-purple-500/50 rounded-xl transition cursor-pointer flex flex-col justify-between space-y-3"
+          >
+            <div className="space-y-2.5">
+              <div className="w-9 h-9 rounded-lg bg-purple-950/60 border border-purple-800/60 flex items-center justify-center text-purple-400 group-hover:scale-105 transition">
+                <HelpCircle className="w-4 h-4" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-100 group-hover:text-purple-400 transition">
+                Everyday & Other
+              </h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Any practical question, technical inquiry, or general troubleshooting.
+              </p>
+            </div>
+            <div className="flex items-center text-xs text-purple-400 font-medium gap-1 pt-1">
+              <span>Start case</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition" />
             </div>
           </div>
         </div>
@@ -200,8 +246,8 @@ export const DashboardView: React.FC<Props> = ({ stats, cases, loading, onNaviga
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-slate-100">Recent Problem Investigations</h2>
-            <p className="text-xs text-slate-400">All cases progress through explicit verification checkpoints</p>
+            <h2 className="text-lg font-bold text-slate-100">Recent Investigations</h2>
+            <p className="text-xs text-slate-400">Cases progressing through analysis and verification</p>
           </div>
           <button
             onClick={() => onNavigate('history')}
@@ -214,7 +260,7 @@ export const DashboardView: React.FC<Props> = ({ stats, cases, loading, onNaviga
 
         {loading ? (
           <div className="p-12 text-center text-slate-400 bg-slate-900 border border-slate-800 rounded-xl animate-pulse">
-            Loading investigation cases...
+            Loading problem cases...
           </div>
         ) : cases.length === 0 ? (
           <div className="p-12 text-center bg-slate-900 border border-slate-800 rounded-xl space-y-3">
@@ -223,7 +269,7 @@ export const DashboardView: React.FC<Props> = ({ stats, cases, loading, onNaviga
               onClick={() => onNavigate('create')}
               className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-xs font-semibold"
             >
-              Create First Case
+              Ask First Problem
             </button>
           </div>
         ) : (
@@ -234,7 +280,7 @@ export const DashboardView: React.FC<Props> = ({ stats, cases, loading, onNaviga
                   <th className="px-5 py-3 font-medium">Problem Case</th>
                   <th className="px-4 py-3 font-medium">Category</th>
                   <th className="px-4 py-3 font-medium">Urgency</th>
-                  <th className="px-4 py-3 font-medium">Lifecycle Status</th>
+                  <th className="px-4 py-3 font-medium">Status</th>
                   <th className="px-4 py-3 font-medium">Verification</th>
                   <th className="px-4 py-3 font-medium text-right">Action</th>
                 </tr>
@@ -271,12 +317,12 @@ export const DashboardView: React.FC<Props> = ({ stats, cases, loading, onNaviga
                         </span>
                       ) : c.verificationRunsCount > 0 ? (
                         <span className="text-amber-400">
-                          {c.verificationRunsCount} run(s) logged
+                          {c.verificationRunsCount} test(s) run
                         </span>
                       ) : (
                         <span className="text-slate-500 flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5" />
-                          <span>Unverified</span>
+                          <span>Not Yet Tested</span>
                         </span>
                       )}
                     </td>
@@ -285,7 +331,7 @@ export const DashboardView: React.FC<Props> = ({ stats, cases, loading, onNaviga
                         onClick={(e) => { e.stopPropagation(); onNavigate('workspace', c.id); }}
                         className="text-xs text-slate-300 group-hover:text-emerald-400 font-medium inline-flex items-center gap-1 hover:underline"
                       >
-                        <span>Workspace</span>
+                        <span>Open</span>
                         <ArrowRight className="w-3 h-3" />
                       </button>
                     </td>

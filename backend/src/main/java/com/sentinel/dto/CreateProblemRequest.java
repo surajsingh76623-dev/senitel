@@ -18,23 +18,31 @@ public class CreateProblemRequest {
     @NotNull(message = "Category is required")
     private ProblemCategory category;
 
-    @NotBlank(message = "Goal is required")
+    // Optional for user convenience: defaults automatically if not provided
     private String goal;
 
     private String constraintsText;
 
-    @NotNull(message = "Urgency is required")
+    // Optional for user convenience: defaults to MEDIUM if not provided
     private ProblemUrgency urgency;
 
     public CreateProblemRequest() {}
+
+    public CreateProblemRequest(String title, String description, ProblemCategory category) {
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.goal = "Analyze problem and provide clear step-by-step resolution";
+        this.urgency = ProblemUrgency.MEDIUM;
+    }
 
     public CreateProblemRequest(String title, String description, ProblemCategory category, String goal, String constraintsText, ProblemUrgency urgency) {
         this.title = title;
         this.description = description;
         this.category = category;
-        this.goal = goal;
+        this.goal = (goal != null && !goal.isBlank()) ? goal : "Analyze problem and provide clear step-by-step resolution";
         this.constraintsText = constraintsText;
-        this.urgency = urgency;
+        this.urgency = urgency != null ? urgency : ProblemUrgency.MEDIUM;
     }
 
     public String getTitle() { return title; }
@@ -46,12 +54,19 @@ public class CreateProblemRequest {
     public ProblemCategory getCategory() { return category; }
     public void setCategory(ProblemCategory category) { this.category = category; }
 
-    public String getGoal() { return goal; }
+    public String getGoal() {
+        if (goal == null || goal.isBlank()) {
+            return title != null ? "Resolve: " + title : "Find and verify complete solution";
+        }
+        return goal;
+    }
     public void setGoal(String goal) { this.goal = goal; }
 
     public String getConstraintsText() { return constraintsText; }
     public void setConstraintsText(String constraintsText) { this.constraintsText = constraintsText; }
 
-    public ProblemUrgency getUrgency() { return urgency; }
+    public ProblemUrgency getUrgency() {
+        return urgency != null ? urgency : ProblemUrgency.MEDIUM;
+    }
     public void setUrgency(ProblemUrgency urgency) { this.urgency = urgency; }
 }

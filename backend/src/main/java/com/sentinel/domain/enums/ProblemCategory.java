@@ -1,10 +1,11 @@
 package com.sentinel.domain.enums;
 
 public enum ProblemCategory {
-    SOFTWARE_DEBUGGING("Software Debugging & Technical Troubleshooting"),
-    ACADEMIC_MATH("Academic & Mathematical Problem-Solving"),
-    DATA_BUSINESS_ANALYSIS("Data & Business Analysis"),
-    GENERAL("General Problem & Systems Inquiry");
+    SOFTWARE_DEBUGGING("Software & Technical Troubleshooting"),
+    ACADEMIC_MATH("Study & Academic / Mathematics"),
+    ENGINEERING_TECHNICAL("Engineering (Civil, Mechanical, Electrical)"),
+    DATA_BUSINESS_ANALYSIS("Business & Data Analysis"),
+    GENERAL("General Problem & Everyday Inquiry");
 
     private final String displayName;
 

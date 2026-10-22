@@ -118,4 +118,49 @@ class DeterministicVerificationEngineTest {
         assertFalse(response.isPassed());
         assertEquals(VerificationStatus.FAILED, response.getStatus());
     }
+
+    @Test
+    @DisplayName("Structural Engineering: Passes when deflection <= L/360 and FoS >= 1.75")
+    void structuralBeamSafety_passesUnderSafeLimits() {
+        DeterministicCheckRequest request = new DeterministicCheckRequest(
+                "STRUCTURAL_BEAM_SAFETY",
+                "sol-eng-001",
+                Map.of(
+                        "spanLengthMeters", 6.0,
+                        "appliedServiceLoadKn", 120.0,
+                        "observedDeflectionMm", 8.2,
+                        "ultimateCapacityKn", 255.0,
+                        "minRequiredFos", 1.75
+                )
+        );
+
+        DeterministicCheckResponse response = engine.executeCheck(request);
+
+        assertTrue(response.isPassed());
+        assertEquals(VerificationStatus.PASSED, response.getStatus());
+        assertTrue(response.getOutputMetrics().containsKey("computedFactorOfSafety"));
+        double fos = (double) response.getOutputMetrics().get("computedFactorOfSafety");
+        assertTrue(fos >= 1.75);
+    }
+
+    @Test
+    @DisplayName("Structural Engineering: Fails when deflection exceeds allowable L/360 limit")
+    void structuralBeamSafety_failsWhenDeflectionExceedsLimit() {
+        DeterministicCheckRequest request = new DeterministicCheckRequest(
+                "STRUCTURAL_BEAM_SAFETY",
+                "sol-eng-001",
+                Map.of(
+                        "spanLengthMeters", 6.0,
+                        "appliedServiceLoadKn", 120.0,
+                        "observedDeflectionMm", 22.4, // > 16.7mm (6000/360)
+                        "ultimateCapacityKn", 255.0,
+                        "minRequiredFos", 1.75
+                )
+        );
+
+        DeterministicCheckResponse response = engine.executeCheck(request);
+
+        assertFalse(response.isPassed());
+        assertEquals(VerificationStatus.FAILED, response.getStatus());
+    }
 }

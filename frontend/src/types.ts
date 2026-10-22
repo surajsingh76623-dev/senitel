@@ -3,6 +3,7 @@
 export type ProblemCategory = 
   | 'SOFTWARE_DEBUGGING' 
   | 'ACADEMIC_MATH' 
+  | 'ENGINEERING_TECHNICAL'
   | 'DATA_BUSINESS_ANALYSIS' 
   | 'GENERAL';
 

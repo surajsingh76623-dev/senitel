@@ -158,6 +158,19 @@ public class DemoAiService implements AiInvestigationService {
                     confidence = 0.87;
                 }
             }
+            case ENGINEERING_TECHNICAL -> {
+                knownFacts.add("Engineering technical report: " + problem.getTitle());
+                knownFacts.add("Context details: " + problem.getDescription());
+                assumptions.add("Structural, mechanical, or electrical load stress exceeds current safety factor or material tolerance limits");
+                missingInfo.add("Exact material specifications (e.g. concrete grade, steel yield strength fy, design load in kN)");
+                missingInfo.add("Environmental boundary conditions (moisture, temperature, cyclic vibration)");
+                constraints.add("Safety Code & Standards: Must satisfy standard structural factor of safety (FoS >= 1.5 - 2.0)");
+                successCriteria.add("Stress / deflection / electrical drop remains strictly below maximum permissible design code limits");
+                clarificationQuestions.add("What are the exact material grades, dimensions, or design loads currently applied?");
+                clarificationQuestions.add("Is this failure occurring under static dead weight or dynamic cyclic loading?");
+                diagnosticSummary = "Engineering technical analysis: Structural/mechanical analysis indicates stress concentration or load redistribution exceeding allowable serviceability limits.";
+                confidence = 0.90;
+            }
             case GENERAL -> {
                 knownFacts.add("General problem query submitted: " + problem.getTitle());
                 knownFacts.add("Stated objective: " + problem.getGoal());
@@ -418,6 +431,84 @@ public class DemoAiService implements AiInvestigationService {
                 )));
                 solutions.add(s3);
             }
+            case ENGINEERING_TECHNICAL -> {
+                CandidateSolution s1 = new CandidateSolution(
+                        problem,
+                        1,
+                        "Structural Load Redistribution & Member Cross-Section Reinforcement",
+                        "Increase member load-bearing cross section or install intermediate support stiffeners to reduce peak bending stress and shear strain well below allowable limits.",
+                        "Directly restores structural safety margin (FoS >= 2.0) and stops micro-crack progression according to standard design codes (ACI/AISC).",
+                        "MEDIUM",
+                        "Requires spatial clearance and material curing or fabrication lead time."
+                );
+                s1.setBenefits(toJsonList(List.of(
+                        "Restores structural safety margin well above code minimums (FoS >= 2.0)",
+                        "Prevents micro-crack propagation and progressive structural failure",
+                        "Standard engineering methodology with reliable empirical predictability"
+                )));
+                s1.setTradeoffs(toJsonList(List.of(
+                        "Requires localized physical reinforcement or temporary scaffolding",
+                        "Adds dead load to foundation which must be verified"
+                )));
+                s1.setRisks(toJsonList(List.of(
+                        "Improper surface prep or weld flaws during field retrofitting"
+                )));
+                s1.setSupportingEvidence(toJsonList(List.of(
+                        "Design codes (ACI 318 / Eurocode 2 / AISC 360) and structural stress-strain analysis"
+                )));
+                s1.setIsSelected(true);
+                solutions.add(s1);
+
+                CandidateSolution s2 = new CandidateSolution(
+                        problem,
+                        2,
+                        "External Carbon Fiber (CFRP) Composite Wrap Retrofitting",
+                        "Apply high-strength epoxy-bonded carbon fiber reinforced polymer jackets around high-stress shear/flexure zones.",
+                        "CFRP increases tensile and shear capacity by up to 40% with minimal added dead weight or dimensional changes.",
+                        "LOW",
+                        "Cannot be used in high fire-hazard environments without certified thermal insulation cladding."
+                );
+                s2.setBenefits(toJsonList(List.of(
+                        "Rapid non-invasive installation with minimal operational downtime",
+                        "Zero significant dead weight increase on existing foundation",
+                        "Immune to moisture and chemical corrosion"
+                )));
+                s2.setTradeoffs(toJsonList(List.of(
+                        "Higher specialized material cost per square meter",
+                        "Requires certified composite application technicians"
+                )));
+                s2.setRisks(toJsonList(List.of(
+                        "Delamination risk if substrate bonding surface is contaminated or damp"
+                )));
+                s2.setSupportingEvidence(toJsonList(List.of(
+                        "Civil structural retrofitting test standards (ACI 440.2R)"
+                )));
+                solutions.add(s2);
+
+                CandidateSolution s3 = new CandidateSolution(
+                        problem,
+                        3,
+                        "Operational Load Shedding & Serviceability Limit Re-rating",
+                        "Restrict maximum live loads, operating speeds, or vehicle/machinery weight limits on the affected structure.",
+                        "Keeps stress safely below fatigue endurance thresholds without immediate physical structural modifications.",
+                        "LOW",
+                        "Constrains operational capacity or facility throughput."
+                );
+                s3.setBenefits(toJsonList(List.of(
+                        "Immediate safety guarantee at zero capital expenditure",
+                        "Instant risk mitigation while engineering permanent retrofit"
+                )));
+                s3.setTradeoffs(toJsonList(List.of(
+                        "Reduces peak operating throughput or traffic capacity"
+                )));
+                s3.setRisks(toJsonList(List.of(
+                        "Requires strict administrative enforcement to prevent accidental overload"
+                )));
+                s3.setSupportingEvidence(toJsonList(List.of(
+                        "Live-load reduction serviceability curves"
+                )));
+                solutions.add(s3);
+            }
             case GENERAL -> {
                 CandidateSolution s1 = new CandidateSolution(
                         problem,
@@ -471,6 +562,11 @@ public class DemoAiService implements AiInvestigationService {
             items.add(new ActionItem(problem, solution, 1, "Reconcile Cohort Unit Economics & Margin Sensitivity", "Run SaaS Unit Economics Calculator check with CAC, churn rate, and grace waiver to verify >= 78% margin."));
             items.add(new ActionItem(problem, solution, 2, "Deploy Automated 80% & 100% In-App and Email Alerts", "Configure billing notification triggers to warn users before unexpected overage costs accumulate."));
             items.add(new ActionItem(problem, solution, 3, "Launch Proactive Grace Waiver Campaign for Churned Accounts", "Reach out to cancelled accounts with one-click credit waiver and migration to predictable expansion pack."));
+        } else if (problem.getCategory() == ProblemCategory.ENGINEERING_TECHNICAL) {
+            items.add(new ActionItem(problem, solution, 1, "Conduct Non-Destructive Inspection & Ultrasonic Testing", "Inspect member dimensions, weld seams, or concrete crack depths to measure current structural integrity."));
+            items.add(new ActionItem(problem, solution, 2, "Recalculate Section Modulus & Safety Factor (FoS)", "Execute structural bending and shear stress calculations under peak factored dead + live loading to confirm FoS >= 1.75."));
+            items.add(new ActionItem(problem, solution, 3, "Implement Reinforcement Retrofit or Load Governor", "Execute the selected structural retrofit (stiffeners / CFRP wrap) or operational load limiter under controlled supervision."));
+            items.add(new ActionItem(problem, solution, 4, "Perform Static Deflection & Vibration Proof Load Test", "Apply calibrated test load and measure deflection using dial gauges or laser sensors to verify compliance with deflection limits."));
         } else {
             items.add(new ActionItem(problem, solution, 1, "Isolate Minimal Reproducible Environment", "Configure clean sandbox environment with known baseline parameters."));
             items.add(new ActionItem(problem, solution, 2, "Execute Controlled Test Sequence", "Run reproducible test steps and log all intermediate states."));
@@ -502,6 +598,12 @@ public class DemoAiService implements AiInvestigationService {
                     "Gross Margin >= 78.0%, CAC Payback < 12 months, and projected churn rate reverses below 2.5% per month.",
                     VerificationType.DETERMINISTIC_CALCULATOR,
                     "Deterministic economic model verifies business constraint compliance before launching billing changes."
+            );
+            case ENGINEERING_TECHNICAL -> new VerificationPlanResult(
+                    "Apply calibrated test proof load (125% of design service load) for 4 hours. Measure maximum mid-span deflection and check for residual deformation.",
+                    "Maximum deflection <= L/360 span limit. Elastic recovery > 95% with zero visible crack extension or shear yielding.",
+                    VerificationType.MANUAL,
+                    "Empirical proof-load testing deterministically validates structural load capacity against building and mechanical safety codes."
             );
             case GENERAL -> new VerificationPlanResult(
                     "Execute defined reproducible test procedure in sandbox, record exact actual output, and compare against specified success criteria.",

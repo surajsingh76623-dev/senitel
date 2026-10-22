@@ -85,11 +85,11 @@ describe('Sentinel Frontend Core Component Tests', () => {
   it('renders dashboard with primary metrics and deep workflows', async () => {
     render(<App />);
     await waitFor(() => {
-      expect(screen.getByText(/Turn Ambiguous Problems into/i)).toBeInTheDocument();
-      expect(screen.getByText(/Core Deep Investigation Workflows/i)).toBeInTheDocument();
-      expect(screen.getByText(/1. Software Debugging/i)).toBeInTheDocument();
-      expect(screen.getByText(/2. Academic & Math Problem-Solving/i)).toBeInTheDocument();
-      expect(screen.getByText(/3. Data & Business Analysis/i)).toBeInTheDocument();
+      expect(screen.getByText(/Solve Complex Problems with/i)).toBeInTheDocument();
+      expect(screen.getByText(/What type of problem do you want to solve\?/i)).toBeInTheDocument();
+      expect(screen.getByText(/Software & Code/i)).toBeInTheDocument();
+      expect(screen.getByText(/Study & Student/i)).toBeInTheDocument();
+      expect(screen.getByText(/Engineering/i)).toBeInTheDocument();
     });
   });
 
@@ -103,13 +103,16 @@ describe('Sentinel Frontend Core Component Tests', () => {
 
   it('CategoryBadge renders deep workflow labels', () => {
     render(<CategoryBadge category="SOFTWARE_DEBUGGING" />);
-    expect(screen.getByText('Software Debugging')).toBeInTheDocument();
+    expect(screen.getByText('Software & Code')).toBeInTheDocument();
 
     render(<CategoryBadge category="ACADEMIC_MATH" />);
-    expect(screen.getByText('Academic & Math')).toBeInTheDocument();
+    expect(screen.getByText('Study & Math')).toBeInTheDocument();
+
+    render(<CategoryBadge category="ENGINEERING_TECHNICAL" />);
+    expect(screen.getByText('Engineering (Civil/Mech/Elec)')).toBeInTheDocument();
 
     render(<CategoryBadge category="DATA_BUSINESS_ANALYSIS" />);
-    expect(screen.getByText('Data & Business')).toBeInTheDocument();
+    expect(screen.getByText('Business & Data')).toBeInTheDocument();
   });
 
   it('UrgencyBadge renders priority ratings', () => {
